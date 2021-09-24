@@ -20,5 +20,33 @@ module.exports = function (defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  return app.toTree();
+  // return app.toTree(extraTreeHere);
+  const {Webpack} = require('@embroider/webpack');
+
+  return require('@embroider/compat').compatBuild(app, Webpack, {
+    extraPublicTrees: [],
+    staticAddonTestSupportTrees: true,
+    staticAddonTrees: true,
+    staticHelpers: true,
+    staticComponents: true,
+    packagerOptions: {
+      webpackConfig: {
+        module: {
+          rules: [
+            {
+              test: /\.css$/i,
+              use: ['style-loader', 'css-loader',
+                {
+                  loader: 'postcss-loader',
+                  options: {
+                    postcssOptions: require('./postcss.config.js'),
+                  }
+                }
+              ],
+            },
+          ],
+        },
+      },
+    },
+  });
 };
