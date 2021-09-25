@@ -2,9 +2,22 @@
 
 const EmberApp = require('ember-cli/lib/broccoli/ember-app');
 
+const { LEGACY_BUILD } = process.env;
+
 module.exports = function (defaults) {
   let app = new EmberApp(defaults, {
     // Add options here
+
+    postcssOptions: {
+      compile: {
+        plugins: [
+          // require('@tailwindcss/jit')('./tailwind.config.js'),
+          require('tailwindcss')('./tailwind.config.js'),
+          require('autoprefixer')(),
+        ],
+        cacheInclude: [/.*\.(css|hbs)$/, /.tailwind\.config\.js$/],
+      },
+    },
   });
 
   // Use `app.import` to add additional libraries to the generated
@@ -20,8 +33,11 @@ module.exports = function (defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
 
-  // return app.toTree(extraTreeHere);
-  const {Webpack} = require('@embroider/webpack');
+  if (LEGACY_BUILD) {
+    return app.toTree();
+  }
+
+  const { Webpack } = require('@embroider/webpack');
 
   return require('@embroider/compat').compatBuild(app, Webpack, {
     extraPublicTrees: [],
@@ -35,13 +51,15 @@ module.exports = function (defaults) {
           rules: [
             {
               test: /\.css$/i,
-              use: ['style-loader', 'css-loader',
+              use: [
+                'style-loader',
+                'css-loader',
                 {
                   loader: 'postcss-loader',
                   options: {
                     postcssOptions: require('./postcss.config.js'),
-                  }
-                }
+                  },
+                },
               ],
             },
           ],

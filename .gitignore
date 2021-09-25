@@ -2,6 +2,7 @@
 
 # compiled output
 /dist/
+/public/tailwind-config.json
 /tmp/
 
 # dependencies
