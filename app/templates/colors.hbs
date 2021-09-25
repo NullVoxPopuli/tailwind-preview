@@ -1,0 +1,35 @@
+{{page-title "Colors"}}
+
+<section class="p-4">
+  <h2>Colors</h2>
+
+  <div class="flex gap-2 flex-wrap">
+    {{#let (get (theme) 'colors') as |colors|}}
+      {{#each (flatten colors) as |base|}}
+
+        {{#if (has-variants base)}}
+
+          <div>
+            <h3>{{base.name}}</h3>
+
+            <div class="flex gap-2 flex-wrap">
+              {{#each base.variants as |variant|}}
+                <Box class="bg-{{variant}}">
+                  {{variant}}
+                </Box>
+              {{/each}}
+            </div>
+          </div>
+
+        {{else}}
+
+          <Box class="bg-{{base}}">
+            {{base}}
+          </Box>
+
+        {{/if}}
+
+      {{/each}}
+    {{/let}}
+  </div>
+</section>
