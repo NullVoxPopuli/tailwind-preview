@@ -18,6 +18,7 @@
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --cache",
     "lint:js:fix": "eslint . --fix",
+    "start:legacy": "LEGACY_BUILD=true ember serve",
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test"
@@ -40,6 +41,7 @@
     "ember-cli-dependency-checker": "^3.2.0",
     "ember-cli-htmlbars": "^5.7.1",
     "ember-cli-inject-live-reload": "^2.0.2",
+    "ember-cli-postcss": "^7.0.2",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-export-application-global": "^2.0.1",
